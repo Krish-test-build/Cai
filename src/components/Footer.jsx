@@ -51,13 +51,13 @@ const Footer = () => {
             >
               <div className="w-4 h-4 bg-blue-600 rounded-full opacity-75"></div>
               <div className="w-4 h-4 bg-red-500 rounded-full -ml-2"></div>
-              <span className="text-xl font-medium ml-1">The Next Design</span>
+              <span className="text-xl font-medium ml-1">Robot Development & Programming</span>
             </motion.div>
             <motion.p 
               variants={fadeIn('up', 0.6)}
               className="text-gray-600 mb-6"
             >
-              The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times.
+              
             </motion.p>
             <motion.div 
               variants={fadeIn('up', 0.7)}
@@ -142,13 +142,12 @@ const Footer = () => {
               variants={fadeIn('right', 1.0)}
               className="text-gray-600 text-sm"
             >
-              Copyright © {new Date().getFullYear()} codetutorbd.com
             </motion.p>
             <motion.p 
               variants={fadeIn('left', 1.0)}
               className="text-gray-600 text-sm"
             >
-              Created by Md Al Mamun
+             
             </motion.p>
           </motion.div>
         </motion.div>

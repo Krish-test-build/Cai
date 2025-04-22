@@ -1,8 +1,29 @@
 import { motion } from "framer-motion";
 import { fadeIn, textVariant } from "../utils/motion";
-import 'swiper/css';
-import 'swiper/css/navigation';
-import monitorCardBg from '../assets/monitor-card.webp';
+import { Lightbulb, Rocket, Wrench, Brain } from 'lucide-react';
+
+const features = [
+  {
+    title: "Hands-On Learning",
+    icon: <Wrench className="w-8 h-8 text-purple-600" />,
+    description: "Get real experience by building, testing, and coding your own robots from scratch."
+  },
+  {
+    title: "Fast Prototyping",
+    icon: <Rocket className="w-8 h-8 text-blue-600" />,
+    description: "Design and 3D print custom parts quickly to bring your ideas to life with minimal delay."
+  },
+  {
+    title: "Smart Simulations",
+    icon: <Brain className="w-8 h-8 text-green-600" />,
+    description: "Test your code in virtual environments before jumping into physical builds."
+  },
+  {
+    title: "Built for Students",
+    icon: <Lightbulb className="w-8 h-8 text-yellow-500" />,
+    description: "No prior experience needed — everything is designed to be approachable and easy to learn."
+  }
+];
 
 const MonitorSection = () => {
   return (
@@ -11,75 +32,40 @@ const MonitorSection = () => {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true }}
-      className="max-w-7xl mx-auto px-4 py-16 md:py-24"
+      className="py-16 bg-gray-50"
     >
-      <div className="flex flex-col md:flex-row items-center gap-12">
-        {/* Left side - Content */}
-        <motion.div 
-          variants={fadeIn('right', 0.3)}
-          className="w-full md:w-1/2"
+      <div className="max-w-6xl mx-auto px-6 text-center">
+        <motion.h2 
+          variants={textVariant(0.3)}
+          className="text-3xl md:text-4xl font-bold mb-4"
         >
-          <motion.span 
-            variants={fadeIn('up', 0.4)}
-            className="text-emerald-500 font-semibold"
-          >
-            MONITOR
-          </motion.span>
-          <motion.h2 
-            variants={textVariant(0.5)}
-            className="text-3xl md:text-4xl font-bold text-navy-900 mt-4 mb-6 md:w-4/5"
-          >
-            Introducing best mobile carousels
-          </motion.h2>
-          <motion.p 
-            variants={fadeIn('up', 0.6)}
-            className="text-gray-600 mb-8 md:w-4/5"
-          >
-            Before the ship is really back. Round, round, all around the world. Round, all around the world. Round, all around the world. Round, all around the world.
-          </motion.p>
-          <motion.a 
-            variants={fadeIn('up', 0.7)}
-            href="#" 
-            className="text-blue-500 font-semibold flex items-center gap-2 hover:gap-4 transition-all"
-          >
-            Learn more about monitoring
-            <motion.svg 
-              variants={fadeIn('left', 0.8)}
-              className="w-5 h-5" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
+          Why This Platform?
+        </motion.h2>
+        <motion.p 
+          variants={fadeIn('up', 0.4)}
+          className="text-gray-600 mb-12"
+        >
+          Built with students in mind — to make robotics more fun, accessible, and powerful.
+        </motion.p>
+        <motion.div 
+          variants={fadeIn('up', 0.5)}
+          className="grid gap-10 md:grid-cols-2 lg:grid-cols-4"
+        >
+          {features.map((feature, idx) => (
+            <motion.div 
+              key={idx}
+              variants={fadeIn('up', 0.6 + idx * 0.1)}
+              className="bg-white p-6 rounded-2xl shadow hover:shadow-md transition"
             >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M17 8l4 4m0 0l-4 4m4-4H3" 
-              />
-            </motion.svg>
-          </motion.a>
-        </motion.div>
-
-        {/* Right side - Swiper with background */}
-        <motion.div 
-          variants={fadeIn('left', 0.3)}
-          className="w-full md:w-1/2 relative"
-        >
-          <motion.div 
-            variants={fadeIn('up', 0.4)}
-            className="p-4"
-          >
-            <motion.img 
-              variants={fadeIn('up', 0.5)}
-              src={monitorCardBg}
-              alt="Dashboard statistics"
-              className="w-full h-auto rounded-lg"
-            />
-          </motion.div>
+              <div className="mb-4 flex justify-center">{feature.icon}</div>
+              <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+              <p className="text-sm text-gray-600">{feature.description}</p>
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </motion.section>
-  )
+  );
 }
 
-export default MonitorSection 
+export default MonitorSection;

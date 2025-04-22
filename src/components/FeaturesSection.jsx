@@ -1,23 +1,25 @@
 import React from 'react'
 import { motion } from "framer-motion";
 import { fadeIn, textVariant } from "../utils/motion";
+import { useNavigate } from 'react-router-dom';
 
 const FeaturesSection = () => {
+  const navigate = useNavigate();
   const features = [
     {
       icon: "🔍", 
-      title: "Find out what you need",
-      description: "We present you a proposal and discuss nitty-gritty like"
+      title: "discover what you need",
+      description: "We help you identify the right tools — from CAD design to hardware selection — to start building with confidence"
     },
     {
       icon: "⚙️",
-      title: "Work out the details", 
-      description: "Communication protocols apart from engagement models"
+      title: "Design, Print & Integrate", 
+      description: "Easily turn concepts into functional robot parts using our streamlined software and 3D printing workflows"
     },
     {
       icon: "🚀",
-      title: "We get to work fast",
-      description: "Protocols apart from engage models, pricing billing"
+      title: "Program & Deploy with Ease",
+      description: "Quickly control and customize your robot’s behavior with intuitive code, simulation tools, and real-world testing — all in one place"
     }
   ]
 
@@ -36,13 +38,13 @@ const FeaturesSection = () => {
           variants={textVariant(0.2)}
           className="text-3xl font-bold mb-4"
         >
-          How can we help your business?
+          🤝 How We Help You Build Smarter
         </motion.h2>
         <motion.p 
           variants={fadeIn('up', 0.4)}
           className="text-gray-600"
         >
-          When you resell besnik, you build trust and increase
+          Whether you're a student, researcher, or innovator — we're here to make robotics development fast, flexible, and future-ready.
         </motion.p>
       </motion.div>
       
@@ -96,9 +98,10 @@ const FeaturesSection = () => {
           variants={fadeIn('up', 0.8)}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          onClick={() => navigate('/signin')}
           className="bg-blue-600 text-white cursor-pointer px-8 py-3 rounded-full font-medium hover:bg-blue-700 transition-colors relative"
         >
-          Become a Partner
+          Sign Up
           <div className="absolute -z-10 w-full h-full rounded-full bg-blue-600/30 blur-xl top-0 left-0"></div>
         </motion.button>
       </motion.div>

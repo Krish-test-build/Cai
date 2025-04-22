@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import { HiMenu, HiX } from 'react-icons/hi'
 import { motion } from "framer-motion";
 import { fadeIn} from "../utils/motion";
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [activeLink, setActiveLink] = useState('#home')
 
@@ -75,8 +77,9 @@ const Navbar = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="hidden md:block bg-blue-600 text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 text-sm font-medium transition-all hover:shadow-lg hover:shadow-blue-100"
+          onClick={() => navigate('/signin')}
         >
-          <a href="#newsletter">Get in touch</a>
+          Sign in
         </motion.button>
       </div>
 
@@ -113,7 +116,7 @@ const Navbar = () => {
               whileTap={{ scale: 0.98 }}
               className="w-full bg-blue-600 text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 text-sm font-medium transition-all hover:shadow-lg hover:shadow-blue-100"
             >
-              Get in touch
+              Sign in
             </motion.button>
           </motion.div>
         </motion.div>

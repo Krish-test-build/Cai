@@ -31,44 +31,33 @@ const ScheduleSection = () => {
         >
           <motion.span 
             variants={fadeIn('up', 0.4)}
-            className="text-orange-500 font-semibold"
+            className="text-orange-500 font-semibold md :text-lg text-xl"
           >
-            SCHEDULE
+            🚀 Why Choose Us?
           </motion.span>
           <motion.h2 
             variants={textVariant(0.5)}
             className="text-3xl md:text-4xl font-bold text-navy-900 mt-4 mb-6"
           >
-            Streamline Your Business <br />
-            With Smart Scheduling Solutions
+            🎓 Build Smarter, Learn Faster
           </motion.h2>
+          <motion 
+          className="text-2xl md:text-2xl font-bold text-navy-900 mt-4 mb-6">
+          Your Complete Toolkit for Robotics  <br /> <br />
+          </motion>
           <motion.p 
             variants={fadeIn('up', 0.6)}
-            className="text-gray-600 mb-8"
+            className="text-gray-600 mb-8 md:text-lg"
           >
-            Take control of your time and boost productivity with our intelligent scheduling system. Automate appointments, manage team availability, and deliver exceptional customer experiences through seamless calendar management.
-          </motion.p>
-          <motion.a 
-            variants={fadeIn('up', 0.7)}
-            href="#" 
-            className="text-blue-500 font-semibold flex items-center gap-2 hover:gap-4 transition-all"
-          >
-            Explore scheduling features
-            <motion.svg 
-              variants={fadeIn('left', 0.8)}
-              className="w-5 h-5" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M17 8l4 4m0 0l-4 4m4-4H3" 
-              />
-            </motion.svg>
-          </motion.a>
+            🧩 Easy-to-Use Design Tools
+            Turn your ideas into 3D-printed robot parts with beginner-friendly CAD workflows. <br /><br />
+
+            💻 Code Without the Chaos
+            Program your robots using simple, intuitive software — no advanced coding needed. <br /> <br />
+
+            🤖 From Screen to Real World
+            Test in simulations, then bring your robots to life with real hardware integration.          </motion.p>
+          
         </motion.div>
       </div>
     </motion.section>

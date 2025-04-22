@@ -4,14 +4,26 @@ import { fadeIn, textVariant } from "../utils/motion";
 const PurposeSection = () => {
   const features = [
     {
-      icon: "🟣", // Replace with your actual icon component or image
-      title: "Built for impact",
-      description: "We identify and nurture a truly diverse team of designers, developers and marketers"
+      icon: "🔧", 
+      title: "Hands-on Innovation",
+      description: "Whether you’re a student, educator, or enthusiast, our platform empowers you to build functional robots from scratch using CAD tools, 3D printing, and easy-to-use programming interfaces"
     },
     {
-      icon: "🔴", // Replace with your actual icon component or image
-      title: "In sync with you",
-      description: "We work the way you do by adapting to your workflows and rhythm we aim to blend in for a seamless."
+      icon: "🧪", 
+      title: " Built for Learning & Experimentation",
+      description: "From virtual simulations to physical builds, we offer a complete ecosystem for exploring robotics, testing ideas, and pushing the boundaries of creative engineering"
+
+    },
+    
+    {
+      icon: "🌐", 
+      title: " Made for Makers",
+      description: "This isn’t just a toolkit — it’s a platform built for builders. Whether you're prototyping a classroom project or experimenting with automation, we’ve got your back."
+    },
+    {
+      icon: "🧠", 
+      title: "Software Meets Hardware",
+      description: "We integrate intuitive control software with 3D-printed components, letting you test, modify, and deploy robotic behavior quickly and efficiently"
     }
   ];
 
@@ -27,15 +39,16 @@ const PurposeSection = () => {
           <motion.div variants={fadeIn('right', 0.3)}>
             <motion.div 
               variants={fadeIn('up', 0.4)}
-              className="text-sm text-purple-600 font-medium mb-2"
+              className="text-xl text-purple-600 font-bold mb-2 md:w-9/10 \n"
             >
-              ACHIEVE MORE
+              Build Smarter.  Innovate Faster. Learn by Creating 
             </motion.div>
+            
             <motion.h2 
               variants={textVariant(0.5)}
-              className="text-3xl md:w-4/5 md:text-4xl font-bold text-gray-900"
+              className="text-5xl md:w-9/10 md:text-5xl font-bold text-gray-900 tracking-wide"
             >
-              Purpose of a convoy is to keep your team
+              Bridging robotics and 3D printing for effortless innovation
             </motion.h2>
           </motion.div>
 
