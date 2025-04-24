@@ -19,7 +19,7 @@ const CompanyLogo = () => {
               key={index}
               src={logo}
               alt={`Company Logo ${index + 1}`}
-              className="mx-12 object-contain opacity-70 hover:grayscale-0 hover:opacity-100 transition-all h-28 w-70"
+              className="mx-12 object-contain opacity-70 hover:grayscale-0 hover:opacity-100 transition-all h-[170px] w-70"
             />
           ))}
           {logos.map((logo, index) => (
@@ -27,7 +27,7 @@ const CompanyLogo = () => {
               key={`duplicate-${index}`}
               src={logo}
               alt={`Company Logo ${index + 1}`}
-              className="mx-12 object-contain opacity-70 hover:grayscale-0 hover:opacity-100 transition-all h-28 w-70"
+              className="mx-12 object-contain opacity-70 hover:grayscale-0 hover:opacity-100 transition-all h-[170px] w-70"
             />
           ))}
         </div>

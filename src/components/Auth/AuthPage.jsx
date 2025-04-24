@@ -3,58 +3,83 @@ import { motion } from "framer-motion";
 import { fadeIn } from "../../utils/motion";
 import { FcGoogle } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
+import { signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../config/firebase';
 
 const AuthPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '', name: '' });
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setSuccess('');
+
     try {
-      console.log('Submitting form:', formData); // Add logging
-
-      const response = await fetch('http://localhost:5000/api/auth/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(formData),
-      });
-
-      console.log('Response status:', response.status); // Add logging
-
-      const data = await response.json();
-      console.log('Response data:', data); // Add logging
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Signup failed');
+      if (isSignUp) {
+        const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+        if (userCredential.user) {
+          setSuccess('Sign up successful! Please sign in.');
+          setTimeout(() => {
+            setIsSignUp(false);
+            setFormData({ ...formData, password: '' });
+            setSuccess('');
+          }, 2000);
+        }
+      } else {
+        const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+        if (userCredential.user) {
+          localStorage.setItem('isAuthenticated', 'true');
+          navigate('/home');
+        }
       }
-
-      // Store the token
-      localStorage.setItem('token', data.token);
-      
-      // Call login from AuthContext if available
-      if (login) {
-        login(data.user);
-      }
-
-      // Redirect to home page
-      navigate('/', { replace: true });
     } catch (error) {
       console.error('Authentication error:', error);
-      setError(error.message);
+      let errorMessage = 'Authentication failed';
+      
+      // Handle specific Firebase error codes
+      switch (error.code) {
+        case 'auth/invalid-credential':
+          errorMessage = 'Invalid email or password. Please check your credentials.';
+          break;
+        case 'auth/user-not-found':
+          errorMessage = 'No account found with this email.';
+          break;
+        case 'auth/wrong-password':
+          errorMessage = 'Invalid password.';
+          break;
+        case 'auth/email-already-in-use':
+          errorMessage = 'Email is already registered.';
+          break;
+        case 'auth/weak-password':
+          errorMessage = 'Password should be at least 6 characters.';
+          break;
+        case 'auth/network-request-failed':
+          errorMessage = 'Network error. Please check your connection.';
+          break;
+        default:
+          errorMessage = error.message;
+      }
+      
+      setError(errorMessage);
     }
   };
 
-  const handleGoogleAuth = async () => {
+  const handleGoogleSignIn = async () => {
     try {
-      await signInWithGoogle();
-      // The redirect will happen automatically
+      const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
+      const result = await signInWithPopup(auth, provider);
+      if (result.user) {
+        localStorage.setItem('isAuthenticated', 'true');
+        navigate('/home');
+      }
     } catch (error) {
-      console.error('Google authentication error:', error);
-      setError(error.message);
+      console.error('Google sign in error:', error);
+      setError('Failed to sign in with Google. Please try again.');
     }
   };
 
@@ -80,6 +105,18 @@ const AuthPage = () => {
             </button>
           </p>
         </div>
+
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-center" role="alert">
+            <span className="block sm:inline">{error}</span>
+          </div>
+        )}
+
+        {success && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative text-center" role="alert">
+            <span className="block sm:inline">{success}</span>
+          </div>
+        )}
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm space-y-4">
@@ -145,7 +182,7 @@ const AuthPage = () => {
 
           <div className="mt-6">
             <button
-              onClick={handleGoogleAuth}
+              onClick={handleGoogleSignIn}
               className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               <FcGoogle className="h-5 w-5 mr-2" />

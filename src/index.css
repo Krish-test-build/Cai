@@ -3,14 +3,20 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 100px;
-    font-family: 'Inter', sans-serif;
+  html, body {
+    @apply m-0 p-0 overflow-x-hidden;
+    height: 100%;
+    width: 100%;
   }
 
   body {
     @apply text-gray-900 bg-white;
+    position: relative;
+  }
+
+  #root {
+    isolation: isolate;
+    min-height: 100%;
   }
 }
 

@@ -10,13 +10,15 @@ router.post('/signup', async (req, res) => {
   try {
     const { email, password, name } = req.body;
     
-    // Check if user already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: 'User already exists' });
+    if (!email || !password || !name) {
+      return res.status(400).json({ message: 'All fields are required' });
     }
 
-    // Create new user
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'Email already registered' });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
       email,
@@ -24,23 +26,24 @@ router.post('/signup', async (req, res) => {
       name
     });
 
-    // Generate JWT token
     const token = jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
 
-    // Remove password from response
-    const userResponse = user.toObject();
-    delete userResponse.password;
-
     res.status(201).json({
+      success: true,
+      message: 'Sign up successful',
       token,
-      user: userResponse
+      user: {
+        _id: user._id,
+        email: user.email,
+        name: user.name
+      }
     });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: 'Error during signup', error: err.message });
   }
 });
 
@@ -48,45 +51,65 @@ router.post('/signin', async (req, res) => {
   try {
     const { email, password } = req.body;
     
-    // Find user
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email and password are required' });
+    }
+
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    // Verify password
-    const isValidPassword = await bcrypt.compare(password, user.password);
-    if (!isValidPassword) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    // Generate JWT token
     const token = jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
 
-    // Remove password from response
-    const userResponse = user.toObject();
-    delete userResponse.password;
-
     res.json({
+      success: true,
+      message: 'Sign in successful',
       token,
-      user: userResponse
+      user: {
+        _id: user._id,
+        email: user.email,
+        name: user.name
+      }
     });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    console.error('Sign in error:', err);
+    res.status(500).json({ message: 'Error during signin', error: err.message });
   }
 });
 
+// Google authentication routes
 router.get('/google',
   passport.authenticate('google', { scope: ['profile', 'email'] })
 );
 
 router.get('/google/callback',
   passport.authenticate('google', { failureRedirect: '/signin' }),
-  (req, res) => res.redirect('/')
+  async (req, res) => {
+    try {
+      const token = jwt.sign(
+        { userId: req.user._id },
+        process.env.JWT_SECRET,
+        { expiresIn: '24h' }
+      );
+      
+      // Set token in cookie or send to client
+      res.cookie('token', token, { httpOnly: true });
+      res.redirect('/');
+    } catch (err) {
+      console.error('Google callback error:', err);
+      res.redirect('/signin?error=auth_failed');
+    }
+  }
 );
 
 export default router;
