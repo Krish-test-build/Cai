@@ -1,4 +1,4 @@
-import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin } from 'react-oauth/google';
 import { useAuth } from '../context/AuthContext';
 
 export default function SignIn() {
